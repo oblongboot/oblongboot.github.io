@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>oblongboot's portfolio!</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: monospace;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #1f1f1f;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    .status {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #f0f0f0;
+      text-align: center;
+    }
+
+    #projects-container {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #222;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 900px;
+    }
+
+    .repo-box {
+      background-color: #333;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
+
+    .repo-box a {
+      color: #1e90ff;
+      text-decoration: none;
+    }
+
+    .repo-box a:hover {
+      text-decoration: underline;
+    }
+
+    .fork {
+      color: #ff9900;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="particles-js"></div>
+
+  <h1>Hello!</h1>
+  <button onclick="window.location.href='https://github.com/oblongboot'">🚀 My Projects</button>
+
+  <div id="github-status" class="status">
+    Checking GitHub Status...
+  </div>
+
+  <div id="projects-container">
+    <p>Loading repositories...</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: {
+          value: 80,
+          density: {
+            enable: true,
+            value_area: 800
+          }
+        },
+        color: { value: "#ffffff" },
+        shape: {
+          type: "circle",
+          stroke: { width: 0, color: "#000000" },
+          polygon: { nb_sides: 5 }
+        },
+        opacity: {
+          value: 0.5,
+          random: false,
+          anim: { enable: false }
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: { enable: false }
+        },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#ffffff",
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 3,
+          direction: "none",
+          random: false,
+          straight: false,
+          out_mode: "out",
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          grab: { distance: 400, line_linked: { opacity: 1 } },
+          bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+          repulse: { distance: 150, duration: 0.4 },
+          push: { particles_nb: 4 },
+          remove: { particles_nb: 2 }
+        }
+      },
+      retina_detect: true
+    });
+
+    fetch('https://api.github.com/users/oblongboot')
+      .then(response => response.json())
+      .then(data => {
+        const statusElement = document.getElementById('github-status');
+        statusElement.textContent = `GitHub Status: ${data.name || 'No name set'} - ${data.bio || 'No bio set'}`;
+      })
+      .catch(error => {
+        console.error('Error fetching GitHub status:', error);
+        const statusElement = document.getElementById('github-status');
+        statusElement.textContent = 'Error fetching GitHub status';
+      });
+
+    const container = document.getElementById('projects-container');
+    fetch('https://api.github.com/users/oblongboot/repos')
+      .then(response => response.json())
+      .then(repos => {
+        container.innerHTML = '';
+        repos.forEach(repo => {
+          const repoBox = document.createElement('div');
+          repoBox.classList.add('repo-box');
+          repoBox.innerHTML = `
+            <h3><a href="${repo.html_url}" target="_blank">${repo.name}</a></h3>
+            <p>${repo.description || "No description provided."}</p>
+            ${repo.fork ? '<div class="fork">🔁 Forked Repository</div>' : ''}
+            <p>⭐ Stars: ${repo.stargazers_count}</p>
+          `;
+          container.appendChild(repoBox);
+        });
+      })
+      .catch(err => {
+        console.error('Failed to load repos:', err);
+        container.innerHTML = '<p>Failed to load repositories.</p>';
+      });
+  </script>
+</body>
+
+</html>
