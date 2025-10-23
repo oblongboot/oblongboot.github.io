@@ -422,25 +422,22 @@
             }
         });
 
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-            const btn = event.target;
-    
-            const existingTooltip = btn.querySelector(".copy-tooltip");
-            if (existingTooltip) existingTooltip.remove();
-            const tooltip = document.createElement("div");
-            tooltip.className = "copy-tooltip";
-            tooltip.textContent = "Copied!";
-            btn.appendChild(tooltip);
-    
-            btn.classList.add("show-tooltip");
-
-            setTimeout(() => {
-                btn.classList.remove("show-tooltip");
-                tooltip.remove();
-            }, 2000);
-        });
-    }
+        function copyToClipboard(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = "Copied!";
+                btn.style.background = "rgba(76, 255, 154, 0.15)";
+                btn.style.borderColor = "rgba(76, 255, 154, 0.3)";
+                btn.style.color = "#4cff9a";
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = "";
+                    btn.style.borderColor = "";
+                    btn.style.color = "";
+                }, 2000);
+            });
+        }
 
         window.addEventListener("load", () => {
             input.focus();
