@@ -1,1 +1,6 @@
-{ "Februari10": "ColorDARK_BLUEFebruari10ColorR", "oblonggg": "ColorAQUAoblongColorR", "fiyrthgu": "ColorPINKfiyrthguColorR", "DjzachMC": "ColorDARK_AQUADjzachMCColorR" }
+[
+  { "name": "Februari10", "color": "#00008B" },
+  { "name": "oblonggg", "color": "#00FFFF" },
+  { "name": "fiyrthgu", "color": "#FFC0CB" },
+  { "name": "DjzachMC", "color": "#008B8B" }
+]
