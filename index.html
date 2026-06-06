@@ -651,7 +651,7 @@
         const input = document.getElementById("discordInput");
         const status = document.getElementById("status");
 
-        const correctID = "768481984242253904";
+        const correctIDs = ["768481984242253904", "1450152796698574914"];
 
         input.addEventListener("input", () => {
             input.value = input.value.replace(/\D/g, "");
@@ -662,7 +662,7 @@
                 return;
             }
 
-            if (input.value === correctID) {
+            if (correctIDs.contains(input.value) {
                 status.textContent = "me!";
                 status.className = "status ok";
             } else {
